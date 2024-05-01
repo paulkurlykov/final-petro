@@ -18,8 +18,19 @@ body {
     color: red;
 }
 
-.hidden {
-    display: none;
+.faded {
+    animation-name: faded;
+    animation-duration: 1.5s;
+}
+
+@keyframes faded {
+    from {
+        opacity: 0.1;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 a:hover {
@@ -495,11 +506,12 @@ textarea:focus {
     padding: 2rem 2rem;
 }
 
-.glazing .aluminum,
-.glazing .plastic,
-.glazing .french,
-.glazing .rise {
+.glazing_content {
     display: none;
+}
+
+.glazing_content--active {
+    display: block;
 }
 
 .glazing a.active {
@@ -550,7 +562,7 @@ textarea:focus {
     border-top: 1rem solid #f7f7f7;
 }
 
-.decoration_item .after_click {
+.decoration_item .active {
     border-top: 1rem solid #0089cd;
     height: 8rem;
     padding: 2rem 0;
@@ -590,10 +602,15 @@ textarea:focus {
     color: #000000;
 }
 
+.decoration .internal,
 .decoration .external,
 .decoration .rising,
 .decoration .roof {
     display: none;
+}
+
+.decoration .decoration_content__item--active {
+    display: block;
 }
 
 /*Our works*/
@@ -844,6 +861,9 @@ textarea:focus {
     height: 100%;
     z-index: 9;
     background-color: rgba(0, 0, 0, 0.5);
+    transition: all 2s;
+    visibility: visible;
+    opacity: 1;
 }
 
 .myimage {
@@ -893,7 +913,16 @@ textarea:focus {
 }
 
 .popup_calc {
-    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.popup_calc_container {
     position: fixed;
     top: 0;
     left: 0;
@@ -905,13 +934,25 @@ textarea:focus {
 
 .popup_calc_content {
     position: fixed;
-    top: 2%;
+    top: 10%;
     left: 50%;
     -webkit-transform: translateX(-50%);
     transform: translateX(-50%);
-    width: 44rem;
+    width: 70rem;
     padding: 1rem 0.5rem 4rem;
     background-color: #ffffff;
+}
+
+.popup__icon-preview {
+    margin: 3rem;
+}
+
+.balcon_big_image {
+    display: none;
+}
+
+.balcon_big_image--active {
+    display: inline-block;
 }
 
 .popup_calc_content h2 {
@@ -930,6 +971,8 @@ textarea:focus {
 
 .popup_calc_content .balcon_icons {
     margin-bottom: 1rem;
+    display: flex;
+    flex-direction: row;
 }
 
 .popup_calc_content .big_img img {
@@ -942,10 +985,20 @@ textarea:focus {
     display: inline-block;
 }
 
-.do_image_more img {
+.balcon_icons_img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 110px;
     height: 70px;
+    text-align: center;
+    margin: 0 auto;
     cursor: pointer;
+}
+
+.balcon_icons_img--active {
+    border: 2px solid black;
+    border-radius: 5px;
 }
 
 .popup_calc_close {
@@ -958,10 +1011,18 @@ textarea:focus {
     background: transparent;
 }
 
-.popup_calc input {
+.popup_calc_container #width,
+.popup_calc_container #height {
     display: inline-block;
     margin-bottom: 3rem;
     width: 10rem;
+    margin-right: 0.3rem;
+}
+
+.popup_calc_container input {
+    display: inline-block;
+    margin-bottom: 3rem;
+    width: 100%;
     margin-right: 0.3rem;
 }
 
@@ -969,7 +1030,7 @@ textarea:focus {
     color: #999;
 }
 
-.popup_calc .multiplication {
+.popup_calc_container .multiplication {
     display: inline-block;
     font-size: 2rem;
     color: #323131;
@@ -981,7 +1042,6 @@ textarea:focus {
 }
 
 .popup_calc_profile {
-    display: none;
     position: fixed;
     top: 0;
     left: 0;
@@ -1810,7 +1870,8 @@ textarea:focus {
 }
 
 .message__icon {
-    max-height: 20rem;
+    max-height: 15rem;
+    margin: 2rem 0 4rem 0;
 }
 
 /* small devices, tablets */
@@ -1835,4 +1896,133 @@ textarea:focus {
 .error-label {
     color: orangered;
     transition: all 3s;
+}
+
+.active-tab {
+    background-color: rgb(81, 81, 81);
+}
+
+.full-image {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9;
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(3px);
+    visibility: visible;
+    opacity: 1;
+    transition: all 1s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15rem;
+}
+
+.full-image img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
+
+/* .full-image__wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+} */
+
+.full-image__cross {
+    width: 7.5rem;
+    height: 7.5rem;
+    border-radius: 50%;
+    background-color: white;
+    cursor: pointer;
+    position: absolute;
+    top: 5rem;
+    right: 5rem;
+    text-align: center;
+}
+
+.full-image__cross strong {
+    transform: translateY(120%) scale(5);
+    display: inline-block;
+}
+
+.hidden .hidden {
+    visibility: hidden;
+    opacity: 0;
+}
+
+.swapping-squares-spinner,
+.swapping-squares-spinner * {
+    box-sizing: border-box;
+}
+
+.swapping-squares-spinner {
+    height: 65px;
+    width: 65px;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.swapping-squares-spinner .square {
+    height: calc(65px * 0.25 / 1.3);
+    width: calc(65px * 0.25 / 1.3);
+    animation-duration: 1000ms;
+    border: calc(65px * 0.04 / 1.3) solid #ff1d5e;
+    margin-right: auto;
+    margin-left: auto;
+    position: absolute;
+    animation-iteration-count: infinite;
+}
+
+.swapping-squares-spinner .square:nth-child(1) {
+    animation-name: swapping-squares-animation-child-1;
+    animation-delay: 500ms;
+}
+
+.swapping-squares-spinner .square:nth-child(2) {
+    animation-name: swapping-squares-animation-child-2;
+    animation-delay: 0ms;
+}
+
+.swapping-squares-spinner .square:nth-child(3) {
+    animation-name: swapping-squares-animation-child-3;
+    animation-delay: 500ms;
+}
+
+.swapping-squares-spinner .square:nth-child(4) {
+    animation-name: swapping-squares-animation-child-4;
+    animation-delay: 0ms;
+}
+
+@keyframes swapping-squares-animation-child-1 {
+    50% {
+        transform: translate(150%, 150%) scale(2, 2);
+    }
+}
+
+@keyframes swapping-squares-animation-child-2 {
+    50% {
+        transform: translate(-150%, 150%) scale(2, 2);
+    }
+}
+
+@keyframes swapping-squares-animation-child-3 {
+    50% {
+        transform: translate(-150%, -150%) scale(2, 2);
+    }
+}
+
+@keyframes swapping-squares-animation-child-4 {
+    50% {
+        transform: translate(150%, -150%) scale(2, 2);
+    }
 }

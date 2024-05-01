@@ -1,10 +1,21 @@
 const forms = document.querySelectorAll("form");
-const url = "https://httpbin.org/post";
+export const url = "https://httpbin.org/post";
 
-const uploadData = async (url, form) => {
+export const uploadData = async (url, form, obj = undefined) => {
     try {
-        const formData = new FormData(form);
-        console.log(formData);
+        let formData;
+
+        if (obj) {
+            formData = new FormData(form);
+            for (let key in obj) {
+                formData.append(key, obj[key]);
+            }
+        } else {
+            formData = new FormData(form);
+        }
+
+        renderSpinner(form);
+
         const res = await fetch(url, {
             method: "POST",
             body: formData,
@@ -14,11 +25,11 @@ const uploadData = async (url, form) => {
 
         const data = await res.json();
         console.log(data);
-        renderSuccessMessage(form);
+
+        renderUpdateMessage(form, `Благодарим вас за оставленную заявку, скот.`);
     } catch (err) {
-        console.log("error");
         console.error(err);
-        renderErrorMessage(form);
+        renderUpdateMessage(form, `Что-то явно пошло не так, скот.`, err);
     }
 };
 
@@ -33,7 +44,6 @@ const isValidPhone = (phone) => {
 };
 
 const resetError = (input) => {
-    console.log("resetting error");
     input.parentElement.classList.remove("error");
     input.nextElementSibling.innerText = "";
 };
@@ -68,20 +78,22 @@ forms.forEach((f) => {
     });
 });
 
-const renderSuccessMessage = (parentEl) => {
+const renderUpdateMessage = (parentEl, msg, err = undefined) => {
     parentEl.innerHTML = "";
     const markup = `<div class="message">
-    <img src="./assets/img/main/blue_tick.svg.png" alt="#" class="message__icon">
-    <p class="message__text">Благодарим вас за оставленную заявку, скот.</p>
+    <img src="./assets/img/main/${!err ? "blue_tick.svg.png" : "error-icon-4.png"}" alt="#" class="message__icon">
+    <p class="message__text">${msg}</p>
   </div>`;
     parentEl.insertAdjacentHTML("beforeend", markup);
 };
 
-const renderErrorMessage = (parentEl) => {
+function renderSpinner(parentEl) {
     parentEl.innerHTML = "";
-    const markup = `<div class="message">
-    <img src="./assets/img/main/error-icon-4.png" alt="#" class="message__icon">
-    <p class="message__text">Что-то явно пошло не так, скот.</p>
+    const markup = `<div class="swapping-squares-spinner" :style="spinnerStyle">
+    <div class="square"></div>
+    <div class="square"></div>
+    <div class="square"></div>
+    <div class="square"></div>
   </div>`;
     parentEl.insertAdjacentHTML("beforeend", markup);
-};
+}
